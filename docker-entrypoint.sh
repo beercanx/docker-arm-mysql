@@ -124,7 +124,7 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
       echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" | "${mysql[@]}"
 
       if [ "$MYSQL_DATABASE" ]; then
-        echo 'Granting permissions for user: ${MYSQL_USER} on: ${MYSQL_DATABASE}'
+        echo "Granting permissions for user: ${MYSQL_USER} on: ${MYSQL_DATABASE}"
         echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" | "${mysql[@]}"
       fi
 
@@ -160,6 +160,13 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     echo
     echo 'MySQL init process done. Ready for start up.'
+    echo
+
+  else
+
+    ## Provide some useful start up logging
+    echo
+    echo 'MySQL is already configured, skipping any setup.'
     echo
   fi
 
