@@ -3,7 +3,8 @@
 Based on: https://github.com/docker-library/mysql/tree/master/5.7
 
 ## Tags
-* `5.7.22`, `5.7`, `5`, `latest` [(5.7.22/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.22/Dockerfile)
+* `latest` [(5.7.22+1/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.22+1/Dockerfile)
+* `5.7.22`, `5.7`, `5` [(5.7.22/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.22/Dockerfile)
 * `5.7.12` [(5.7.12/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.12/Dockerfile)
 
 ## Source
