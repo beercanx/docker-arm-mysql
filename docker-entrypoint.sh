@@ -110,7 +110,7 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     ## Create database if specified
     if [ "$MYSQL_DATABASE" ]; then
-      echo 'Creating database: ${MYSQL_DATABASE}'
+      echo "Creating database: ${MYSQL_DATABASE}"
 
       echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` ;" | "${mysql[@]}"
 
@@ -120,7 +120,7 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     ## Create database user if specified
     if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
-      echo 'Creating user: ${MYSQL_USER}'
+      echo "Creating user: ${MYSQL_USER}"
       echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" | "${mysql[@]}"
 
       if [ "$MYSQL_DATABASE" ]; then
