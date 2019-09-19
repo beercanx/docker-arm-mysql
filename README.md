@@ -22,6 +22,20 @@ docker run -it \
   beercan1989/arm-mysql:latest
 ```
 
+## Running with a volume mounted
+Basically its the same as with the official mysql image.
+```
+docker run -it \
+  -e 'MYSQL_ROOT_PASSWORD=password' \
+  -e 'MYSQL_DATABASE=identity' \
+  -e 'MYSQL_USER=identity' \
+  -e 'MYSQL_PASSWORD=password' \
+  -p '3306:3306' \
+  --name example_mysql \
+  -v datadir:/var/lib/mysql \
+  beercan1989/arm-mysql:latest
+```
+
 ## Building, testing, tagging, pushing
 ```
 docker build -t beercan1989/arm-mysql:latest .
