@@ -23,7 +23,7 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
   ## Find the MySQL data directory
   DATA_DIR="$("$@" --verbose --help 2>/dev/null | awk '$1 == "datadir" { print $2; exit }')"
 
-  ALREADY_CONFIGURED_FILE="/opt/docker-arm-mysql/.has_already_configured_mysql"
+  ALREADY_CONFIGURED_FILE="${DATA_DIR}/.has_already_configured_mysql"
 
   ## Only run if the ALREADY_CONFIGURED_FILE is not present
   if [ ! -f "${ALREADY_CONFIGURED_FILE}" ]; then
@@ -35,8 +35,20 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
       exit 1
     fi
 
-    ## Make sure the data directory exists and is owened by MySQL
-    chown -R mysql:mysql "${DATA_DIR}"
+    ## Have we externalised the data mount?
+    if [ ! -d "${DATA_DIR}/mysql" ]; then
+
+        ## Just to be safe make sure it exists
+        mkdir -p "${DATA_DIR}"
+
+        ## Make sure the data directory exists and is owned by MySQL
+        chown -R mysql:mysql "${DATA_DIR}"
+
+        ## Doing this again, as we added it to the build phase to help speed up some things.
+        echo 'Initializing MySQL database'
+        mysqld --initialize-insecure
+        echo 'MySQL database initialized'
+    fi
 
     ## Start the MySQL daemon
     "$@" --skip-networking &
@@ -98,7 +110,7 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     ## Create database if specified
     if [ "$MYSQL_DATABASE" ]; then
-      echo 'Creating database: ${MYSQL_DATABASE}'
+      echo "Creating database: ${MYSQL_DATABASE}"
 
       echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` ;" | "${mysql[@]}"
 
@@ -108,11 +120,11 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     ## Create database user if specified
     if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
-      echo 'Creating user: ${MYSQL_USER}'
+      echo "Creating user: ${MYSQL_USER}"
       echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" | "${mysql[@]}"
 
       if [ "$MYSQL_DATABASE" ]; then
-        echo 'Granting permissions for user: ${MYSQL_USER} on: ${MYSQL_DATABASE}'
+        echo "Granting permissions for user: ${MYSQL_USER} on: ${MYSQL_DATABASE}"
         echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" | "${mysql[@]}"
       fi
 
@@ -148,6 +160,13 @@ if [ "$1" = 'mysqld' -a -z "${wantHelp}" ]; then
 
     echo
     echo 'MySQL init process done. Ready for start up.'
+    echo
+
+  else
+
+    ## Provide some useful start up logging
+    echo
+    echo 'MySQL is already configured, skipping any setup.'
     echo
   fi
 
