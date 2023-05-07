@@ -10,8 +10,11 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 ## Update the apt lists
 apt-get update
 
+## Install script dependencies
+apt-get install -y --no-install-recommends bzip2 ca-certificates gosu openssl perl pwgen wget xz-utils zstd
+
 ## Install MySQL
-apt-get install -y mysql-server-${MYSQL_MAJOR} tzdata
+apt-get install -y "mysql-server-${MYSQL_MAJOR}" tzdata
 
 ## Clean up any mess
 apt-get clean autoclean
