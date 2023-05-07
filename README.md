@@ -1,6 +1,7 @@
 # MySQL on an ARMv7 docker base
 
-Based on: https://github.com/docker-library/mysql/tree/master/5.7
+For 5.7 its based on: https://github.com/docker-library/mysql/tree/master/5.7
+For 8.0 its based on: https://github.com/docker-library/mysql/tree/611aa464a96f69e5d4d4172b14ca829ded162b42/8.0
 
 ## Tags
 * `5.7.33`, `5.7`, `5`, `latest` [(5.7.33/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.33/Dockerfile)
@@ -22,7 +23,7 @@ docker run -it \
 ```
 
 ## Running with a volume mounted
-Basically its the same as with the official mysql image.
+Basically it's the same as with the official mysql image.
 ```bash
 docker run -it \
   -e 'MYSQL_ROOT_PASSWORD=password' \
@@ -36,7 +37,8 @@ docker run -it \
 ```
 
 ## Building, testing, tagging, pushing
-The basic way, while on a RaspberryPi.. 
+### MySQL 5.7
+The basic way, while on a RaspberryPi... 
 ```bash
 cd 5.7
 
@@ -73,4 +75,16 @@ docker buildx build --progress=plain --platform=linux/amd64,linux/arm64,linux/ar
 docker login
 
 docker buildx build --platform=linux/amd64,linux/arm64/v8,linux/arm/v7 -t beercan1989/arm-mysql:latest -t beercan1989/arm-mysql:5 -t beercan1989/arm-mysql:5.7 -t beercan1989/arm-mysql:5.7.33 --push .
+```
+
+### MySQL 8.0
+```bash
+cd 8.0
+
+# Run with plain progress so you can see which packages are actually installed to find the MySQL version
+docker buildx build --progress=plain --platform=linux/amd64,linux/arm64,linux/arm/v7 .
+
+docker login
+
+docker buildx build --platform=linux/amd64,linux/arm64/v8,linux/arm/v7 -t beercan1989/arm-mysql:8 -t beercan1989/arm-mysql:8.0 -t beercan1989/arm-mysql:8.0.32 --push .
 ```
