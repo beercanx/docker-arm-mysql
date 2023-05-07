@@ -10,7 +10,7 @@ Based on: https://github.com/docker-library/mysql/tree/master/5.7
 * GitHub: https://github.com/beercan1989/docker-arm-mysql
 
 ## Running
-```
+```bash
 docker run -it \
   -e 'MYSQL_ROOT_PASSWORD=password' \
   -e 'MYSQL_DATABASE=identity' \
@@ -23,7 +23,7 @@ docker run -it \
 
 ## Running with a volume mounted
 Basically its the same as with the official mysql image.
-```
+```bash
 docker run -it \
   -e 'MYSQL_ROOT_PASSWORD=password' \
   -e 'MYSQL_DATABASE=identity' \
@@ -36,7 +36,10 @@ docker run -it \
 ```
 
 ## Building, testing, tagging, pushing
-```
+The basic way, while on a RaspberryPi.. 
+```bash
+cd 5.7
+
 docker build -t beercan1989/arm-mysql:latest .
 
 docker run -it \
@@ -58,4 +61,16 @@ docker push beercan1989/arm-mysql:latest
 docker push beercan1989/arm-mysql:5
 docker push beercan1989/arm-mysql:5.7
 docker push beercan1989/arm-mysql:5.7.33
+```
+
+The process is slightly more complex/simple now that we have buildx support to enable multiple architecture building of images, but it does mean this image can now be run on most machines. 
+```bash
+cd 5.7
+
+# Run with plain progress so you can see which packages are actually installed to find the MySQL version
+docker buildx build --progress=plain --platform=linux/amd64,linux/arm64,linux/arm/v7 .
+
+docker login
+
+docker buildx build --platform=linux/amd64,linux/arm64/v8,linux/arm/v7 -t beercan1989/arm-mysql:latest -t beercan1989/arm-mysql:5 -t beercan1989/arm-mysql:5.7 -t beercan1989/arm-mysql:5.7.33 --push .
 ```
