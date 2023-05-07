@@ -1,7 +1,5 @@
 FROM ubuntu:xenial
 
-MAINTAINER James Bacon james@baconi.co.uk
-
 USER root
 
 ## Create mysql user early to keep UID/GUID consistent
@@ -30,6 +28,9 @@ RUN /opt/docker-arm-mysql/initialise-mysql-insecure.bash
 
 ## Setup MySQL data directory as a volume
 VOLUME /var/lib/mysql
+
+## Create the init folder for sql files to import at first start up
+RUN mkdir /docker-entrypoint-initdb.d
 
 ## Upload docker entrypoint script
 COPY docker-entrypoint.sh /opt/docker-arm-mysql/
