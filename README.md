@@ -1,13 +1,13 @@
 # MySQL on an ARMv7 docker base
 
-Based on: https://github.com/docker-library/mysql/tree/master/5.7
+Based on: https://github.com/docker-library/mysql/blob/4e022c06314ff6047dabc4abee2f222ae9ce564d/5.7/Dockerfile
 
 ## Tags
-* `5.7.33`, `5.7`, `5`, `latest` [(5.7.33/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.33/Dockerfile)
-* `5.7.22` [(5.7.22+1/Dockerfile)](https://github.com/beercan1989/docker-arm-mysql/blob/5.7.22+1/Dockerfile)
+* `5.7.33`, `5.7`, `5`, `latest` [(5.7.33/Dockerfile)](https://gitlab.com/beercan/docker-arm-mysql/-/blob/5.7.33/Dockerfile)
+* `5.7.22` [(5.7.22+1/Dockerfile)](https://gitlab.com/beercan/docker-arm-mysql/-/blob/5.7.22+1/Dockerfile)
 
 ## Source
-* GitHub: https://github.com/beercan1989/docker-arm-mysql
+* GitLab: https://gitlab.com/beercan/docker-arm-mysql
 
 ## Running
 ```
